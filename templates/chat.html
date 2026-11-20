@@ -1,0 +1,113 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="dashboard-header">
+
+    <h2>Agent Chat</h2>
+
+    <p>
+        Ask questions to your AI agents.
+    </p>
+
+</div>
+
+<div class="create-agent-panel">
+
+    <form method="post" action="/chat">
+
+        <select
+            name="agent_id"
+            required
+        >
+
+            <option value="">
+                Select Agent
+            </option>
+
+            {% for agent in agents %}
+
+            <option value="{{ agent.id }}">
+
+                {{ agent.agent_name }}
+
+            </option>
+
+            {% endfor %}
+
+        </select>
+
+        <br><br>
+
+        <input
+            type="text"
+            name="question"
+            placeholder="Ask a question..."
+            value="{{ question if question else '' }}"
+            required
+        >
+
+        <br><br>
+
+        <button
+            type="submit"
+            class="btn"
+        >
+            Ask Agent
+        </button>
+
+    </form>
+
+</div>
+
+{% if answer %}
+
+<div class="agent-card">
+
+    <h3>Conversation Result</h3>
+
+    <br>
+
+    <p>
+
+        <strong>Agent:</strong>
+
+        {{ selected_agent }}
+
+    </p>
+
+    <p>
+
+        <strong>Knowledge Base:</strong>
+
+        {{ selected_kb }}
+
+    </p>
+
+    <p>
+
+        <strong>Question:</strong>
+
+        {{ question }}
+
+    </p>
+
+    <br>
+
+    <div class="answer">
+
+        <strong>Answer:</strong>
+
+        <p>
+
+            {{ answer }}
+
+        </p>
+
+    </div>
+
+</div>
+
+{% endif %}
+
+{% endblock %}

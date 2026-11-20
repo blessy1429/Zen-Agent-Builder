@@ -1,0 +1,523 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="dashboard-header">
+
+    <h2>Zen Agent Builder - Admin Console</h2>
+
+    <p>
+        Manage users, roles, modules, knowledge sources and AI agents.
+    </p>
+
+</div>
+
+<!-- KPI SECTION -->
+
+<div class="kpi-grid">
+
+    <div class="kpi-card">
+        <h3>Users</h3>
+        <h1>{{ total_users }}</h1>
+    </div>
+
+    <div class="kpi-card">
+        <h3>Roles</h3>
+        <h1>{{ total_roles }}</h1>
+    </div>
+
+    <div class="kpi-card">
+        <h3>Modules</h3>
+        <h1>{{ total_modules }}</h1>
+    </div>
+
+    <div class="kpi-card">
+        <h3>Agents</h3>
+        <h1>{{ total_agents }}</h1>
+    </div>
+
+    <div class="kpi-card">
+        <h3>Workflows</h3>
+        <h1>{{ total_workflows }}</h1>
+    </div>
+
+    <div class="kpi-card">
+        <h3>Knowledge Sources</h3>
+        <h1>{{ total_knowledge_sources }}</h1>
+    </div>
+
+    <div class="kpi-card">
+        <h3>Chunks</h3>
+        <h1>{{ total_chunks }}</h1>
+    </div>
+
+</div>
+
+<!-- ADMINISTRATION -->
+
+<div class="page-card">
+
+    <h2>Administration</h2>
+
+    <div class="admin-grid">
+
+        <!-- CREATE USER -->
+
+        <div class="mini-card">
+
+            <h3>Create User</h3>
+
+            <form method="post" action="/register-form">
+
+                <input
+                    type="text"
+                    name="username"
+                    placeholder="Username"
+                    required
+                >
+
+                <br><br>
+
+                <input
+                    type="email"
+                    name="email"
+                    placeholder="Email"
+                    required
+                >
+
+                <br><br>
+
+                <input
+                    type="password"
+                    name="password"
+                    placeholder="Password"
+                    required
+                >
+
+                <br><br>
+
+                <select name="role_id">
+
+                    {% for role in roles %}
+
+                    <option value="{{ role.id }}">
+                        {{ role.name }}
+                    </option>
+
+                    {% endfor %}
+
+                </select>
+
+                <br><br>
+
+                <button
+                    type="submit"
+                    class="btn"
+                >
+                    Create User
+                </button>
+
+            </form>
+
+        </div>
+
+        <!-- CREATE ROLE -->
+
+        <div class="mini-card">
+
+            <h3>Create Role</h3>
+
+            <form method="post" action="/add-role-form">
+
+                <input
+                    type="text"
+                    name="role_name"
+                    placeholder="Role Name"
+                    required
+                >
+
+                <br><br>
+
+                <button
+                    type="submit"
+                    class="btn"
+                >
+                    Create Role
+                </button>
+
+            </form>
+
+        </div>
+
+        <!-- CREATE MODULE -->
+
+        <div class="mini-card">
+
+            <h3>Create Module</h3>
+
+            <form method="post" action="/add-module-form">
+
+                <input
+                    type="text"
+                    name="module_name"
+                    placeholder="Module Name"
+                    required
+                >
+
+                <br><br>
+
+                <button
+                    type="submit"
+                    class="btn"
+                >
+                    Create Module
+                </button>
+
+            </form>
+
+        </div>
+
+    </div>
+
+</div>
+
+<!-- MODULE ASSIGNMENT -->
+
+<div class="page-card">
+
+    <h2>Module Assignment</h2>
+
+    <form method="post" action="/assign-module">
+
+        <div class="form-grid">
+
+            <select name="role_id">
+
+                {% for role in roles %}
+
+                <option value="{{ role.id }}">
+                    {{ role.name }}
+                </option>
+
+                {% endfor %}
+
+            </select>
+
+            <select name="module_id">
+
+                {% for module in modules %}
+
+                <option value="{{ module.id }}">
+                    {{ module.name }}
+                </option>
+
+                {% endfor %}
+
+            </select>
+
+        </div>
+
+        <br>
+
+        <button
+            type="submit"
+            class="btn"
+        >
+            Assign Module
+        </button>
+
+    </form>
+
+</div>
+
+<!-- ASSIGNED MODULES -->
+
+<div class="page-card">
+
+    <h2>Assigned Modules</h2>
+
+    <table>
+
+        <thead>
+
+            <tr>
+                <th>ID</th>
+                <th>Role</th>
+                <th>Module</th>
+                <th>Action</th>
+            </tr>
+
+        </thead>
+
+        <tbody>
+
+            {% for assignment in assigned_modules %}
+
+            <tr>
+
+                <td>{{ assignment.id }}</td>
+
+                <td>{{ assignment.role.name }}</td>
+
+                <td>{{ assignment.module.name }}</td>
+
+                <td>
+
+                    <a
+                        href="/delete-role-module/{{ assignment.id }}"
+                        class="action-link"
+                    >
+                        Remove
+                    </a>
+
+                </td>
+
+            </tr>
+
+            {% endfor %}
+
+        </tbody>
+
+    </table>
+
+</div>
+
+<!-- USER MANAGEMENT -->
+
+<div class="page-card">
+
+    <h2>User Management</h2>
+
+    <table>
+
+        <thead>
+
+            <tr>
+                <th>ID</th>
+                <th>Username</th>
+                <th>Email</th>
+                <th>Role</th>
+                <th>Status</th>
+                <th>Actions</th>
+            </tr>
+
+        </thead>
+
+        <tbody>
+
+            {% for user in users %}
+
+            <tr>
+
+                <td>{{ user.id }}</td>
+
+                <td>{{ user.username }}</td>
+
+                <td>{{ user.email }}</td>
+
+                <td>{{ user.role.name }}</td>
+
+                <td>{{ user.status }}</td>
+
+                <td>
+
+                    <a href="/edit-user/{{ user.id }}" class="action-link">
+                        Edit
+                    </a>
+
+                    <a href="/toggle-user/{{ user.id }}" class="action-link">
+                        Enable/Disable
+                    </a>
+
+                    <a href="/delete-user/{{ user.id }}" class="action-link">
+                        Delete
+                    </a>
+
+                </td>
+
+            </tr>
+
+            {% endfor %}
+
+        </tbody>
+
+    </table>
+
+</div>
+
+<!-- ROLE MANAGEMENT -->
+
+<div class="page-card">
+
+    <h2>Role Management</h2>
+
+    <table>
+
+        <thead>
+
+            <tr>
+                <th>ID</th>
+                <th>Role Name</th>
+                <th>Status</th>
+                <th>Actions</th>
+            </tr>
+
+        </thead>
+
+        <tbody>
+
+            {% for role in roles %}
+
+            <tr>
+
+                <td>{{ role.id }}</td>
+
+                <td>{{ role.name }}</td>
+
+                <td>{{ role.status }}</td>
+
+                <td>
+
+                    <a href="/edit-role/{{ role.id }}" class="action-link">
+                        Edit
+                    </a>
+
+                    <a href="/toggle-role/{{ role.id }}" class="action-link">
+                        Enable/Disable
+                    </a>
+
+                </td>
+
+            </tr>
+
+            {% endfor %}
+
+        </tbody>
+
+    </table>
+
+</div>
+
+<!-- MODULE MANAGEMENT -->
+
+<div class="page-card">
+
+    <h2>Module Management</h2>
+
+    <table>
+
+        <thead>
+
+            <tr>
+                <th>ID</th>
+                <th>Module Name</th>
+                <th>Status</th>
+                <th>Actions</th>
+            </tr>
+
+        </thead>
+
+        <tbody>
+
+            {% for module in modules %}
+
+            <tr>
+
+                <td>{{ module.id }}</td>
+
+                <td>{{ module.name }}</td>
+
+                <td>{{ module.status }}</td>
+
+                <td>
+
+                    <a href="/edit-module/{{ module.id }}" class="action-link">
+                        Edit
+                    </a>
+
+                    <a href="/toggle-module/{{ module.id }}" class="action-link">
+                        Enable/Disable
+                    </a>
+
+                    <a href="/delete-module/{{ module.id }}" class="action-link">
+                        Delete
+                    </a>
+
+                </td>
+
+            </tr>
+
+            {% endfor %}
+
+        </tbody>
+
+    </table>
+
+</div>
+
+<!-- CREATED AGENTS -->
+
+<div class="page-card">
+
+    <h2>Created Agents</h2>
+
+    <table>
+
+        <thead>
+
+            <tr>
+                <th>ID</th>
+                <th>Agent Name</th>
+                <th>Agent Type</th>
+                <th>Knowledge Base</th>
+                <th>Status</th>
+                <th>Actions</th>
+            </tr>
+
+        </thead>
+
+        <tbody>
+
+            {% for agent in agents %}
+
+            <tr>
+
+                <td>{{ agent.id }}</td>
+
+                <td>{{ agent.agent_name }}</td>
+
+                <td>{{ agent.agent_type }}</td>
+
+                <td>{{ agent.knowledge_base_name }}</td>
+
+                <td>{{ agent.status }}</td>
+
+                <td>
+
+                    <a
+                        href="/execute-agent/{{ agent.id }}"
+                        class="action-link"
+                    >
+                        Execute
+                    </a>
+
+                    <a
+                        href="/delete-agent/{{ agent.id }}"
+                        class="action-link"
+                    >
+                        Delete
+                    </a>
+
+                </td>
+
+            </tr>
+
+            {% endfor %}
+
+        </tbody>
+
+    </table>
+
+</div>
+
+{% endblock %}

@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="page-card">
+    <h2>{{ agent.agent_name }}</h2>
+
+    <p>
+        <strong>Endpoint:</strong>
+        {{ agent.api_endpoint }}
+    </p>
+
+    <p>
+        <strong>Method:</strong>
+        POST
+    </p>
+
+    <p>
+        <strong>Sample URL:</strong>
+        http://127.0.0.1:8000{{ agent.api_endpoint }}
+    </p>
+
+    <pre>
+{
+    "question": "Sample question"
+}
+    </pre>
+
+</div>
+
+{% endblock %}

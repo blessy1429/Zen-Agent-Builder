@@ -1,0 +1,114 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="page-header">
+    <h1>Execute Agent</h1>
+    <p>View agent configuration and execute the agent with an uploaded document.</p>
+</div>
+
+<div class="card">
+
+    <h3>Agent Configuration</h3>
+
+    <table class="table">
+
+        <tr>
+            <th>Agent Name</th>
+            <td>{{ agent.agent_name }}</td>
+        </tr>
+
+        <tr>
+            <th>Prompt</th>
+            <td>{{ agent.prompt }}</td>
+        </tr>
+
+        <tr>
+            <th>Output Type</th>
+            <td>{{ agent.output_type }}</td>
+        </tr>
+
+        <tr>
+            <th>Knowledge Base</th>
+            <td>{{ agent.knowledge_base_name or "-" }}</td>
+        </tr>
+
+        <tr>
+            <th>Status</th>
+            <td>
+                <span class="
+                    {% if agent.status == 'Active' %}
+                        badge badge-success
+                    {% else %}
+                        badge badge-danger
+                    {% endif %}
+                ">
+                    {{ agent.status }}
+                </span>
+            </td>
+        </tr>
+
+    </table>
+
+</div>
+
+<br>
+
+<div class="card">
+
+    <h3>Upload Document</h3>
+
+    <form
+        action="/run-agent/{{ agent.id }}"
+        method="post"
+        enctype="multipart/form-data"
+    >
+
+        <div class="form-group">
+            <label>Select File</label>
+
+            <input
+                type="file"
+                name="file"
+                class="form-control"
+                required
+            >
+        </div>
+
+        <button
+            type="submit"
+            class="btn btn-primary"
+        >
+            Execute Agent
+        </button>
+
+        <a
+            href="/agent-builder"
+            class="btn btn-secondary"
+        >
+            Back
+        </a>
+
+    </form>
+
+</div>
+
+{% if output %}
+
+<br>
+
+<div class="card">
+
+    <h3>Execution Result</h3>
+
+    <textarea
+        class="form-control"
+        rows="15"
+        readonly
+    >{{ output }}</textarea>
+
+</div>
+
+{% endif %}
+
+{% endblock %}

@@ -1,0 +1,11 @@
+John Doe
+
+Skills:
+Python
+FastAPI
+Machine Learning
+Azure
+Git
+
+Experience:
+5 years software development

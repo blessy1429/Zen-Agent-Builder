@@ -1,0 +1,49 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="page-header">
+    <h1>Workflow Execution Details</h1>
+</div>
+
+<div class="card">
+
+    <div class="detail-item">
+        <strong>Workflow Name:</strong>
+        {{ execution.workflow_name }}
+    </div>
+
+    <div class="detail-item">
+        <strong>Status:</strong>
+        {{ execution.status }}
+    </div>
+
+    <div class="detail-item">
+        <strong>Execution Type:</strong>
+        {{ execution.execution_type }}
+    </div>
+
+    <div class="detail-item">
+        <strong>Tracking ID:</strong>
+        {{ execution.tracking_id }}
+    </div>
+
+    <div class="detail-item">
+        <strong>Started At:</strong>
+        {{ execution.started_at }}
+    </div>
+
+    <div class="detail-item">
+        <strong>Completed At:</strong>
+        {{ execution.completed_at }}
+    </div>
+
+</div>
+
+<div style="margin-top:20px;">
+    <a href="/workflow-executions" class="btn btn-secondary">
+        Back to History
+    </a>
+</div>
+
+{% endblock %}

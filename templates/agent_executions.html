@@ -1,0 +1,136 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<style>
+.stats-grid{
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    gap:20px;
+    margin-bottom:20px;
+}
+
+.stat-card{
+    background:#ffffff;
+    padding:20px;
+    border-radius:10px;
+    text-align:center;
+    box-shadow:0 2px 8px rgba(0,0,0,0.1);
+}
+
+.stat-card h3{
+    margin:0;
+    color:#666;
+    font-size:14px;
+}
+
+.stat-card h2{
+    margin-top:10px;
+    color:#2563eb;
+}
+
+.table{
+    width:100%;
+    border-collapse:collapse;
+}
+
+.table th,
+.table td{
+    padding:12px;
+    border-bottom:1px solid #ddd;
+    text-align:left;
+}
+
+.btn{
+    display:inline-block;
+    padding:6px 12px;
+    background:#2563eb;
+    color:white;
+    text-decoration:none;
+    border-radius:5px;
+}
+
+.btn:hover{
+    background:#1d4ed8;
+}
+</style>
+
+<div class="page-header">
+    <h1>Agent Execution History</h1>
+    <p>Track every agent execution.</p>
+</div>
+
+<div class="stats-grid">
+
+    <div class="stat-card">
+        <h3>Total Executions</h3>
+        <h2>{{ total_executions }}</h2>
+    </div>
+
+    <div class="stat-card">
+        <h3>Pending</h3>
+        <h2>{{ pending_count }}</h2>
+    </div>
+
+    <div class="stat-card">
+        <h3>Completed</h3>
+        <h2>{{ completed_count }}</h2>
+    </div>
+
+    <div class="stat-card">
+        <h3>Failed</h3>
+        <h2>{{ failed_count }}</h2>
+    </div>
+
+</div>
+
+<div class="card">
+
+    <table class="table">
+
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Tracking ID</th>
+                <th>Agent</th>
+                <th>Status</th>
+                <th>Execution Type</th>
+                <th>Created</th>
+                <th>View</th>
+            </tr>
+        </thead>
+
+        <tbody>
+
+            {% for execution in executions %}
+
+            <tr>
+                <td>{{ execution.id }}</td>
+
+                <td>{{ execution.tracking_id }}</td>
+
+                <td>{{ execution.agent.agent_name }}</td>
+
+                <td>{{ execution.status }}</td>
+
+                <td>{{ execution.execution_type }}</td>
+
+                <td>{{ execution.created_at }}</td>
+
+                <td>
+                    <a href="/execution-details/{{ execution.id }}"
+                       class="btn">
+                        View
+                    </a>
+                </td>
+            </tr>
+
+            {% endfor %}
+
+        </tbody>
+
+    </table>
+
+</div>
+
+{% endblock %}

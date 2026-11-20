@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Zen Agent Builder</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', path='style.css') }}">
+</head>
+<body>
+
+    <nav>
+        <a href="/user-dashboard/{{ role_id }}">
+            Dashboard
+        </a>
+
+        <a href="/knowledge-base-page">
+            Knowledge Base
+        </a>
+
+        <a href="/chat-page">
+            Agent Chat
+        </a>
+
+        <a href="/logout">
+            Logout
+        </a>
+    </nav>
+
+    <div class="container">
+        {% block content %}
+        {% endblock %}
+    </div>
+
+</body>
+</html>

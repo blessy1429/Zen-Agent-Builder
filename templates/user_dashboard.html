@@ -1,0 +1,111 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="dashboard-header">
+
+    <h2>Welcome User</h2>
+
+    <p>
+        Access the modules assigned to your role.
+    </p>
+
+</div>
+
+<div class="kpi-grid">
+
+    <div class="kpi-card">
+
+        <div class="kpi-icon">
+            <i class="fas fa-layer-group"></i>
+        </div>
+
+        <h3>Assigned Modules</h3>
+
+        <h1>
+            {{ modules|length }}
+        </h1>
+
+    </div>
+
+</div>
+
+<div class="section-title">
+
+    My Modules
+
+</div>
+
+<div class="card-grid">
+
+{% for module in modules %}
+
+<div class="agent-card">
+
+    <h3>
+        {{ module.name }}
+    </h3>
+
+    <span class="badge">
+        Module
+    </span>
+
+    <br><br>
+
+    {% if module.name == "Knowledge Base" %}
+
+    <p>
+        Knowledge Base module is assigned.
+    </p>
+
+    <br>
+
+    <button class="btn" disabled>
+        Available Soon
+    </button>
+
+    {% elif module.name == "Agent Chat" %}
+
+    <p>
+        Agent Chat module is assigned.
+    </p>
+
+    <br>
+
+    <button class="btn" disabled>
+        Available Soon
+    </button>
+
+    {% elif module.name == "Agent Builder" %}
+
+    <p>
+        This module is available only for administrators.
+    </p>
+
+    <br>
+
+    <button class="btn" disabled>
+        Admin Only
+    </button>
+
+    {% else %}
+
+    <p>
+        Access system functionality.
+    </p>
+
+    <br>
+
+    <button class="btn" disabled>
+        Module Assigned
+    </button>
+
+    {% endif %}
+
+</div>
+
+{% endfor %}
+
+</div>
+
+{% endblock %}

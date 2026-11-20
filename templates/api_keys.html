@@ -1,0 +1,121 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="page-card">
+
+    <h2>API Key Management</h2>
+
+    <form method="post" action="/create-api-key">
+
+        <div class="form-grid">
+
+            <input
+                type="text"
+                name="key_name"
+                placeholder="Key Name"
+                required
+            >
+
+            <select
+                name="provider_id"
+                required
+            >
+
+                <option value="">
+                    Select Provider
+                </option>
+
+                {% for provider in providers %}
+
+                <option value="{{ provider.id }}">
+                    {{ provider.provider_name }}
+                </option>
+
+                {% endfor %}
+
+            </select>
+
+        </div>
+
+        <br>
+
+        <input
+            type="text"
+            name="api_key"
+            placeholder="API Key"
+            required
+        >
+
+        <br><br>
+
+        <button
+            type="submit"
+            class="btn primary-btn"
+        >
+            Save API Key
+        </button>
+
+    </form>
+
+</div>
+
+<div class="page-card">
+
+    <h2>Configured API Keys</h2>
+
+    <table>
+
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Key Name</th>
+                <th>Provider</th>
+                <th>Status</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+
+        <tbody>
+
+            {% for key in api_keys %}
+
+            <tr>
+
+                <td>{{ key.id }}</td>
+
+                <td>{{ key.key_name }}</td>
+
+                <td>{{ key.provider.provider_name }}</td>
+
+                <td>{{ key.status }}</td>
+
+                <td>
+
+                    <a
+                        href="/toggle-api-key/{{ key.id }}"
+                        class="action-link"
+                    >
+                        Enable / Disable
+                    </a>
+
+                    <a
+                        href="/delete-api-key/{{ key.id }}"
+                        class="action-link"
+                    >
+                        Delete
+                    </a>
+
+                </td>
+
+            </tr>
+
+            {% endfor %}
+
+        </tbody>
+
+    </table>
+
+</div>
+
+{% endblock %}

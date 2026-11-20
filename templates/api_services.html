@@ -1,0 +1,122 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="page-header">
+    <h1>API Services</h1>
+    <p>Manage published agent APIs and API access tokens.</p>
+</div>
+
+<div class="page-card">
+
+    <h2>Published API Services</h2>
+
+    <table>
+
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Agent Name</th>
+                <th>Endpoint</th>
+                <th>Provider</th>
+                <th>Model</th>
+                <th>Status</th>
+                <th>API Key</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+
+        <tbody>
+
+            {% for agent in agents %}
+
+            <tr>
+
+                <td>{{ agent.id }}</td>
+
+                <td>
+                    {{ agent.agent_name }}
+                </td>
+
+                <td>
+                    {{ agent.api_endpoint }}
+                </td>
+
+                <td>
+                    {% if agent.provider %}
+                        {{ agent.provider.provider_name }}
+                    {% else %}
+                        -
+                    {% endif %}
+                </td>
+
+                <td>
+                    {{ agent.model_name or "-" }}
+                </td>
+
+                <td>
+
+                    {% if agent.is_published %}
+
+                        <span class="status-active">
+                            Published
+                        </span>
+
+                    {% else %}
+
+                        <span class="status-disabled">
+                            Unpublished
+                        </span>
+
+                    {% endif %}
+
+                </td>
+
+                <td>
+
+                    <a href="/generate-api-token/{{ agent.id }}" class="btn">
+                     Generate Key
+                       </a>
+
+                </td>
+
+                <td>
+
+                    <div class="action-buttons">
+
+                        <a
+                            href="/view-api/{{ agent.id }}"
+                            class="btn"
+                        >
+                            View API
+                        </a>
+
+                        <a
+                         href="/view-key/{{ agent.id }}"
+                          class="btn"
+                        >
+                               View Key
+                              </a>
+
+                        <a
+                            href="/toggle-agent/{{ agent.id }}"
+                            class="btn"
+                        >
+                            Enable/Disable
+                        </a>
+
+                    </div>
+
+                </td>
+
+            </tr>
+
+            {% endfor %}
+
+        </tbody>
+
+    </table>
+
+</div>
+
+{% endblock %}

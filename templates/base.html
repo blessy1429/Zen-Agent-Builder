@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Zen Agent Builder</title>
+
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+    <link rel="stylesheet"
+          href="/static/css/style.css">
+</head>
+
+<body>
+
+<div class="layout">
+
+    <!-- Sidebar -->
+    <aside class="sidebar">
+
+        <div class="logo">
+            <h2>Zen Agent Builder</h2>
+        </div>
+
+        <nav>
+
+            {% if is_user is defined and is_user %}
+
+                <a href="/user-dashboard/{{ role_id }}">
+                    <i class="fas fa-chart-line"></i>
+                    Dashboard
+                </a>
+
+                <a href="/knowledge-base-page">
+                    <i class="fas fa-book"></i>
+                    Knowledge Base
+                </a>
+
+                <a href="/chat-page">
+                    <i class="fas fa-comments"></i>
+                    Agent Chat
+                </a>
+
+            {% else %}
+
+                <a href="/dashboard">
+                    <i class="fas fa-chart-line"></i>
+                    Dashboard
+                </a> <a href="/roles-page">
+                    <i class="fas fa-user-shield"></i>
+                    Roles
+                </a>
+
+                <a href="/modules-page">
+                    <i class="fas fa-cubes"></i>
+                    Modules
+                </a>
+                <a href="/chat-page">
+                    <i class="fas fa-comments"></i>
+                    Agent Chat
+                </a>
+
+                <a href="/knowledge-base-page">
+                    <i class="fas fa-book"></i>
+                    Knowledge Base
+                </a>
+
+                <a href="/agent-builder">
+                    <i class="fas fa-robot"></i>
+                    Agent Builder
+                </a>
+                <a href="/llm-providers">
+    <i class="fas fa-brain"></i>
+    LLM Providers
+</a>
+   <a href="/llm-models">
+        <i class="fas fa-cubes"></i>
+        <span>LLM Models</span>
+    </a>
+<a href="/api-analytics">
+        <i class="fas fa-chart-line"></i>
+        <span>API Analytics</span>
+    </a>
+<a href="/api-keys">
+    <i class="fas fa-key"></i>
+    API Keys
+</a>
+<a href="/api-services">
+    <i class="fas fa-plug"></i>
+    API Services
+</a>
+    <a href="/workflow-builder">
+        <i class="fas fa-project-diagram"></i>
+        <span>Workflow Builder</span>
+    </a>
+    <a href="/document-classifier">
+        <i class="fas fa-file-alt"></i>
+        Document Classifier
+    </a>
+
+<a href="/resume-screening-agent">
+        <i class="fas fa-user-check"></i>
+        Resume Screening Agent
+    </a>
+        <a href="/agent-marketplace">
+        <i class="fas fa-store"></i>
+        Agent Marketplace
+    </a>
+   <a href="/agent-executions">
+    <i class="fas fa-history"></i>
+    Agent Execution History
+</a>
+
+<a href="/workflow-executions">
+    <i class="fas fa-sitemap"></i>
+    Workflow Execution History
+</a>
+               
+
+            {% endif %}
+
+        </nav>
+
+    </aside>
+
+    <!-- Main Content -->
+    <main class="main-content">
+
+        <!-- Top Bar -->
+        <header class="topbar">
+
+            <div class="search">
+                <input
+                    type="text"
+                    placeholder="Search..."
+                >
+            </div>
+
+            <div class="topbar-right">
+
+                <button
+                    type="button"
+                    class="theme-btn"
+                    onclick="toggleDarkMode()">
+                    <i class="fas fa-moon"></i>
+                </button>
+
+                <a href="/logout" class="logout-btn">
+                    Logout
+                </a>
+
+            </div>
+
+        </header>
+
+        <!-- Page Content -->
+        <section class="page-content">
+
+            {% block content %}
+            {% endblock %}
+
+        </section>
+
+    </main>
+
+</div>
+
+<script>
+
+function toggleDarkMode() {
+
+    document.body.classList.toggle("dark-mode");
+
+    const isDark =
+        document.body.classList.contains(
+            "dark-mode"
+        );
+
+    localStorage.setItem(
+        "theme",
+        isDark ? "dark" : "light"
+    );
+}
+
+document.addEventListener(
+    "DOMContentLoaded",
+    function () {
+
+        if (
+            localStorage.getItem("theme")
+            === "dark"
+        ) {
+
+            document.body.classList.add(
+                "dark-mode"
+            );
+        }
+
+    }
+);
+
+</script>
+
+</body>
+
+</html>

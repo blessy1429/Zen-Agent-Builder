@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Edit Role</title>
+
+    <style>
+
+        *{
+            margin:0;
+            padding:0;
+            box-sizing:border-box;
+            font-family:'Segoe UI',sans-serif;
+        }
+
+        body{
+            background:#f4f6f9;
+            padding:30px;
+        }
+
+        .container{
+            max-width:600px;
+            margin:auto;
+        }
+
+        .card{
+            background:white;
+            padding:30px;
+            border-radius:12px;
+            box-shadow:0 4px 10px rgba(0,0,0,0.1);
+        }
+
+        h1{
+            margin-bottom:20px;
+            color:#333;
+        }
+
+        label{
+            display:block;
+            margin-bottom:10px;
+            font-weight:bold;
+        }
+
+        input{
+            width:100%;
+            padding:12px;
+            border:1px solid #ddd;
+            border-radius:8px;
+            margin-bottom:20px;
+        }
+
+        button{
+            background:#667eea;
+            color:white;
+            border:none;
+            padding:12px 20px;
+            border-radius:8px;
+            cursor:pointer;
+        }
+
+        button:hover{
+            background:#5563d8;
+        }
+
+        .back-link{
+            display:inline-block;
+            margin-top:20px;
+            text-decoration:none;
+            color:#667eea;
+            font-weight:bold;
+        }
+
+    </style>
+
+</head>
+
+<body>
+
+    <div class="container">
+
+        <div class="card">
+
+            <h1>Edit Role</h1>
+
+            <form
+                action="/update-role/{{ role.id }}"
+                method="post"
+            >
+
+                <label>Role Name</label>
+
+                <input
+                    type="text"
+                    name="role_name"
+                    value="{{ role.name }}"
+                    required
+                >
+
+                <button type="submit">
+
+                    Update Role
+
+                </button>
+
+            </form>
+
+        </div>
+
+        <a
+            href="/roles-page"
+            class="back-link"
+        >
+            ← Back to Roles
+        </a>
+
+    </div>
+
+</body>
+
+</html>

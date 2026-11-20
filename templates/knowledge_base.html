@@ -1,0 +1,130 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="dashboard-header">
+
+    <h2>Knowledge Base</h2>
+
+    <p>
+        Upload and manage your knowledge sources.
+    </p>
+
+</div>
+
+<div class="create-agent-panel">
+
+    <h3>Upload Document</h3>
+
+    <form
+        action="/upload-document"
+        method="post"
+        enctype="multipart/form-data"
+    >
+
+        <input
+            type="file"
+            name="file"
+            required
+        >
+
+        <br><br>
+
+        <button
+            type="submit"
+            class="btn"
+        >
+            Upload
+        </button>
+
+    </form>
+
+</div>
+
+<div class="create-agent-panel">
+
+    <h3>Add Website URL</h3>
+
+    <form
+        action="/add-url"
+        method="post"
+    >
+
+        <input
+            type="text"
+            name="url"
+            placeholder="https://example.com"
+            required
+        >
+
+        <br><br>
+
+        <button
+            type="submit"
+            class="btn"
+        >
+            Add URL
+        </button>
+
+    </form>
+
+</div>
+
+<div class="section-title">
+
+    Knowledge Sources
+
+</div>
+
+<div class="card-grid">
+
+{% for record in records %}
+
+<div class="agent-card">
+
+    <h3>
+        {{ record.file_name }}
+    </h3>
+
+    <span class="badge">
+        {{ record.source_type }}
+    </span>
+
+    <br><br>
+
+    <p>
+
+        <strong>Status:</strong>
+
+        {{ record.status }}
+
+    </p>
+
+    <p>
+
+        <strong>Chunks:</strong>
+
+        {{ chunk_counts[record.id] }}
+
+    </p>
+
+    <br>
+
+    <div class="card-actions">
+
+        <a
+            href="/delete-knowledge/{{ record.id }}"
+            class="delete-btn"
+        >
+            Delete
+        </a>
+
+    </div>
+
+</div>
+
+{% endfor %}
+
+</div>
+
+{% endblock %}

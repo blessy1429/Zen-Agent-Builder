@@ -1,0 +1,100 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="page-card">
+
+    <h2>LLM Providers</h2>
+
+    <form method="post" action="/create-provider">
+
+        <div class="form-grid">
+
+            <input
+                type="text"
+                name="provider_name"
+                placeholder="Provider Name"
+                required
+            >
+
+            <input
+                type="text"
+                name="api_base_url"
+                placeholder="API Base URL"
+                required
+            >
+
+        </div>
+
+        <br>
+
+        <button
+            type="submit"
+            class="btn primary-btn"
+        >
+            Add Provider
+        </button>
+
+    </form>
+
+</div>
+
+<div class="page-card">
+
+    <h2>Configured Providers</h2>
+
+    <table>
+
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Provider</th>
+                <th>API URL</th>
+                <th>Status</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+
+        <tbody>
+
+            {% for provider in providers %}
+
+            <tr>
+
+                <td>{{ provider.id }}</td>
+
+                <td>{{ provider.provider_name }}</td>
+
+                <td>{{ provider.api_base_url }}</td>
+
+                <td>{{ provider.status }}</td>
+
+                <td>
+
+                    <a
+                        href="/toggle-provider/{{ provider.id }}"
+                        class="action-link"
+                    >
+                        Enable / Disable
+                    </a>
+
+                    <a
+                        href="/delete-provider/{{ provider.id }}"
+                        class="action-link"
+                    >
+                        Delete
+                    </a>
+
+                </td>
+
+            </tr>
+
+            {% endfor %}
+
+        </tbody>
+
+    </table>
+
+</div>
+
+{% endblock %}

@@ -1,0 +1,72 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="container-fluid">
+
+    <div class="card shadow-sm">
+        <div class="card-header">
+            <h3 class="mb-0">Resume Matcher Agent</h3>
+        </div>
+
+        <div class="card-body">
+
+            <form action="/run-resume-matcher" method="post">
+
+                <div class="mb-3">
+                    <label class="form-label">
+                        Resume Text
+                    </label>
+
+                    <textarea
+                        name="resume_text"
+                        class="form-control"
+                        rows="8"
+                        required
+                    >{{ resume_text or '' }}</textarea>
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label">
+                        Job Description
+                    </label>
+
+                    <textarea
+                        name="job_description"
+                        class="form-control"
+                        rows="8"
+                        required
+                    >{{ job_description or '' }}</textarea>
+                </div>
+
+                <button
+                    type="submit"
+                    class="btn btn-primary"
+                >
+                    Compare Resume
+                </button>
+
+            </form>
+
+        </div>
+    </div>
+
+    {% if result %}
+
+    <div class="card mt-4 border-success">
+
+        <div class="card-header bg-success text-white">
+            Match Results
+        </div>
+
+        <div class="card-body">
+            <pre>{{ result }}</pre>
+        </div>
+
+    </div>
+
+    {% endif %}
+
+</div>
+
+{% endblock %}

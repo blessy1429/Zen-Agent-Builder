@@ -1,0 +1,104 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="page-header">
+    <h1>Test Agent</h1>
+    <p>Execute and validate agent output before publishing.</p>
+</div>
+
+<div class="card">
+
+    <h3>{{ agent.agent_name }}</h3>
+
+    <p>
+        <strong>Category:</strong>
+        {{ agent.agent_category }}
+    </p>
+
+    <p>
+        <strong>Input Type:</strong>
+        {{ agent.input_type }}
+    </p>
+
+    <p>
+        <strong>Output Type:</strong>
+        {{ agent.output_type }}
+    </p>
+
+    <form
+        action="/run-test-agent/{{ agent.id }}"
+        method="post"
+        enctype="multipart/form-data"
+    >
+
+        {% if agent.input_type == "Text" %}
+
+        <div class="form-group">
+
+            <label>Input Text</label>
+
+            <textarea
+                name="input_text"
+                class="form-control"
+                rows="8"
+            ></textarea>
+
+        </div>
+
+        {% endif %}
+
+        {% if agent.input_type == "JSON" %}
+
+        <div class="form-group">
+
+            <label>JSON Input</label>
+
+            <textarea
+                name="input_text"
+                class="form-control"
+                rows="8"
+            ></textarea>
+
+        </div>
+
+        {% endif %}
+
+        {% if agent.input_type == "Document" %}
+
+        <div class="form-group">
+
+            <label>Upload Document</label>
+
+            <input
+                type="file"
+                name="file"
+                class="form-control"
+            >
+
+        </div>
+
+        {% endif %}
+
+        <button
+            type="submit"
+            class="btn btn-primary"
+        >
+            Run Test
+        </button>
+
+    </form>
+
+    {% if output %}
+
+    <hr>
+
+    <h4>Output</h4>
+
+    <pre>{{ output }}</pre>
+
+    {% endif %}
+
+</div>
+
+{% endblock %}

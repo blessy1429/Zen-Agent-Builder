@@ -1,0 +1,14 @@
+# check_agent_db.py
+
+import sqlite3
+
+conn = sqlite3.connect("users.db")
+
+cursor = conn.cursor()
+
+cursor.execute("PRAGMA table_info(agents)")
+
+for row in cursor.fetchall():
+    print(row)
+
+    conn.close()

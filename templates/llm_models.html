@@ -1,0 +1,109 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="page-header">
+    <h1>LLM Models</h1>
+    <p>Manage models for each LLM Provider.</p>
+</div>
+
+<div class="card">
+
+    <h3>Add Model</h3>
+
+    <form action="/create-model" method="post">
+
+        <div class="form-group">
+            <label>Provider</label>
+
+            <select
+                name="provider_id"
+                class="form-control"
+                required
+            >
+                <option value="">
+                    Select Provider
+                </option>
+
+                {% for provider in providers %}
+
+                <option value="{{ provider.id }}">
+                    {{ provider.provider_name }}
+                </option>
+
+                {% endfor %}
+
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label>Model Name</label>
+
+            <input
+                type="text"
+                name="model_name"
+                class="form-control"
+                placeholder="Example: GPT-4o"
+                required
+            >
+        </div>
+
+        <button
+            type="submit"
+            class="btn btn-primary"
+        >
+            Add Model
+        </button>
+
+    </form>
+
+</div>
+
+<br>
+
+<div class="card">
+
+    <h3>Available Models</h3>
+
+    <table class="table">
+
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Provider</th>
+                <th>Model</th>
+                <th>Status</th>
+            </tr>
+        </thead>
+
+        <tbody>
+
+            {% for model in models %}
+
+            <tr>
+
+                <td>{{ model.id }}</td>
+
+                <td>
+                    {{ model.provider.provider_name }}
+                </td>
+
+                <td>
+                    {{ model.model_name }}
+                </td>
+
+                <td>
+                    {{ model.status }}
+                </td>
+
+            </tr>
+
+            {% endfor %}
+
+        </tbody>
+
+    </table>
+
+</div>
+
+{% endblock %}

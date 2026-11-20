@@ -1,0 +1,47 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="card">
+
+    <div class="card-header">
+        <h3>Document Classification History</h3>
+    </div>
+
+    <div class="card-body">
+
+        <table class="table table-bordered">
+
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>File Name</th>
+                    <th>Document Type</th>
+                    <th>Confidence</th>
+                    <th>Created At</th>
+                </tr>
+            </thead>
+
+            <tbody>
+
+                {% for record in records %}
+
+                <tr>
+                    <td>{{ record.id }}</td>
+                    <td>{{ record.file_name }}</td>
+                    <td>{{ record.document_type }}</td>
+                    <td>{{ record.confidence }}</td>
+                    <td>{{ record.created_at }}</td>
+                </tr>
+
+                {% endfor %}
+
+            </tbody>
+
+        </table>
+
+    </div>
+
+</div>
+
+{% endblock %}

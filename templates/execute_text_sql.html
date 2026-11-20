@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Text SQL Agent</title>
+
+    <style>
+
+        *{
+            margin:0;
+            padding:0;
+            box-sizing:border-box;
+            font-family:'Segoe UI',sans-serif;
+        }
+
+        body{
+            background:#f4f6f9;
+            padding:30px;
+        }
+
+        .container{
+            max-width:1200px;
+            margin:auto;
+        }
+
+        .card{
+            background:white;
+            padding:25px;
+            border-radius:12px;
+            margin-bottom:20px;
+            box-shadow:0 4px 10px rgba(0,0,0,0.08);
+        }
+
+        .agent-title{
+            font-size:32px;
+            color:#333;
+            margin-bottom:10px;
+        }
+
+        .agent-type{
+            display:inline-block;
+            background:#667eea;
+            color:white;
+            padding:6px 12px;
+            border-radius:15px;
+            font-size:13px;
+            margin-bottom:20px;
+        }
+
+        form{
+            display:flex;
+            gap:10px;
+            flex-wrap:wrap;
+        }
+
+        input{
+            flex:1;
+            min-width:300px;
+            padding:12px;
+            border:1px solid #ddd;
+            border-radius:6px;
+            font-size:14px;
+        }
+
+        button{
+            background:#667eea;
+            color:white;
+            border:none;
+            padding:12px 20px;
+            border-radius:6px;
+            cursor:pointer;
+        }
+
+        button:hover{
+            background:#5563d8;
+        }
+
+        .sql-box{
+            background:#f8f9fa;
+            border:1px solid #ddd;
+            padding:20px;
+            border-radius:8px;
+            font-family:Consolas, monospace;
+            white-space:pre-wrap;
+        }
+
+        .back-btn{
+            display:inline-block;
+            text-decoration:none;
+            background:#6c757d;
+            color:white;
+            padding:10px 18px;
+            border-radius:6px;
+        }
+
+    </style>
+
+</head>
+
+<body>
+
+<div class="container">
+
+    <div class="card">
+
+        <h1 class="agent-title">
+            {{ agent.agent_name }}
+        </h1>
+
+        <span class="agent-type">
+            Text SQL Agent
+        </span>
+
+        <form
+            action="/run-text-sql/{{ agent.id }}"
+            method="post"
+        >
+
+            <input
+                type="text"
+                name="question"
+                placeholder="Example: Show all active users"
+                required
+            >
+
+            <button type="submit">
+                Generate SQL
+            </button>
+
+        </form>
+
+    </div>
+
+    {% if output %}
+
+    <div class="card">
+
+        <h2>Generated SQL</h2>
+
+        <div class="sql-box">
+{{ output }}
+        </div>
+
+    </div>
+
+    {% endif %}
+
+    <a
+        href="/agent-builder"
+        class="back-btn"
+    >
+        Back to Agent Builder
+    </a>
+
+</div>
+
+</body>
+
+</html>

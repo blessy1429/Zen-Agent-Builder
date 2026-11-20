@@ -1,0 +1,374 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="page-header">
+    <h1>Workflow Builder</h1>
+    <p>Create, visualize and manage multi-agent workflows.</p>
+</div>
+
+<div class="card">
+
+    <form method="post" action="/create-workflow">
+
+        <!-- Workflow Name -->
+
+        <div class="form-group">
+            <label>Workflow Name</label>
+
+            <input
+                type="text"
+                name="workflow_name"
+                class="form-control"
+                placeholder="Enter workflow name"
+                required>
+        </div>
+
+        <!-- Step 1 Agent -->
+
+        <div class="form-group">
+            <label>Step 1 Agent</label>
+
+            <select
+                id="step1_agent"
+                name="step1_agent"
+                class="form-control">
+
+                <option value="">Select Agent</option>
+
+                {% for agent in agents %}
+                <option value="{{ agent.id }}">
+                    {{ agent.agent_name }}
+                </option>
+                {% endfor %}
+
+            </select>
+        </div>
+
+        <!-- Step 2 Agent -->
+
+        <div class="form-group">
+            <label>Step 2 Agent</label>
+
+            <select
+                id="step2_agent"
+                name="step2_agent"
+                class="form-control">
+
+                <option value="">Select Agent</option>
+
+                {% for agent in agents %}
+                <option value="{{ agent.id }}">
+                    {{ agent.agent_name }}
+                </option>
+                {% endfor %}
+
+            </select>
+        </div>
+
+        <!-- Step 3 Agent -->
+
+        <div class="form-group">
+            <label>Step 3 Agent</label>
+
+            <select
+                id="step3_agent"
+                name="step3_agent"
+                class="form-control">
+
+                <option value="">Select Agent</option>
+
+                {% for agent in agents %}
+                <option value="{{ agent.id }}">
+                    {{ agent.agent_name }}
+                </option>
+                {% endfor %}
+
+            </select>
+        </div>
+
+        <!-- Workflow Visualization -->
+
+        <div class="workflow-section">
+
+            <h3>Workflow Visualization</h3>
+
+            <div class="workflow-canvas">
+
+                <div class="workflow-node">
+                    <div class="step-label">Step 1</div>
+
+                    <div class="agent-box" id="node1">
+                        Select Agent
+                    </div>
+                </div>
+
+                <div class="workflow-arrow">→</div>
+
+                <div class="workflow-node">
+                    <div class="step-label">Step 2</div>
+
+                    <div class="agent-box" id="node2">
+                        Select Agent
+                    </div>
+                </div>
+
+                <div class="workflow-arrow">→</div>
+
+                <div class="workflow-node">
+                    <div class="step-label">Step 3</div>
+
+                    <div class="agent-box" id="node3">
+                        Select Agent
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+
+        <button
+            type="submit"
+            class="btn btn-primary">
+
+            Create Workflow
+
+        </button>
+
+    </form>
+
+</div>
+
+<!-- CREATED WORKFLOWS -->
+
+<div class="card">
+
+    <h2>Created Workflows</h2>
+
+    <div class="table-responsive">
+
+        <table class="table">
+
+            <thead>
+
+                <tr>
+                    <th>ID</th>
+                    <th>Workflow Name</th>
+                    <th>Status</th>
+                    <th>Actions</th>
+                </tr>
+
+            </thead>
+
+            <tbody>
+
+            {% for workflow in workflows %}
+
+                <tr>
+
+                    <td>
+                        {{ workflow.id }}
+                    </td>
+
+                    <td>
+                        {{ workflow.workflow_name }}
+                    </td>
+
+                    <td>
+
+                        {% if workflow.is_published %}
+
+                            <span class="badge-success">
+                                Published
+                            </span>
+
+                        {% else %}
+
+                            <span class="badge-secondary">
+                                Draft
+                            </span>
+
+                        {% endif %}
+
+                    </td>
+
+                    <td>
+
+                        <div class="action-buttons">
+
+                            <a
+                                href="/edit-workflow/{{ workflow.id }}"
+                                class="btn btn-sm">
+                                Edit
+                            </a>
+
+                            <a
+                                href="/execute-workflow/{{ workflow.id }}"
+                                class="btn btn-sm btn-primary">
+                                Execute
+                            </a>
+
+                            <a
+                                href="/publish-workflow/{{ workflow.id }}"
+                                class="btn btn-sm btn-success">
+                                Publish
+                            </a>
+
+                        </div>
+
+                    </td>
+
+                </tr>
+
+            {% else %}
+
+                <tr>
+
+                    <td colspan="4"
+                        style="text-align:center;padding:25px;">
+
+                        No workflows created yet.
+
+                    </td>
+
+                </tr>
+
+            {% endfor %}
+
+            </tbody>
+
+        </table>
+
+    </div>
+
+</div>
+
+<style>
+
+.workflow-section{
+    margin-top:30px;
+    margin-bottom:30px;
+    padding:25px;
+    border:1px solid #e5e7eb;
+    border-radius:12px;
+    background:#f8fafc;
+}
+
+.workflow-section h3{
+    margin-bottom:20px;
+}
+
+.workflow-canvas{
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    gap:25px;
+    flex-wrap:wrap;
+}
+
+.workflow-node{
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+}
+
+.step-label{
+    margin-bottom:10px;
+    font-size:13px;
+    font-weight:600;
+    color:#64748b;
+}
+
+.agent-box{
+    min-width:220px;
+    min-height:90px;
+    padding:20px;
+    background:#2563eb;
+    color:white;
+    border-radius:14px;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    text-align:center;
+    font-weight:600;
+    box-shadow:0 4px 10px rgba(37,99,235,.25);
+}
+
+.workflow-arrow{
+    font-size:36px;
+    font-weight:bold;
+    color:#64748b;
+}
+
+.badge-success{
+    background:#dcfce7;
+    color:#166534;
+    padding:6px 12px;
+    border-radius:20px;
+    font-size:12px;
+}
+
+.badge-secondary{
+    background:#e5e7eb;
+    color:#374151;
+    padding:6px 12px;
+    border-radius:20px;
+    font-size:12px;
+}
+
+.btn-sm{
+    padding:6px 10px;
+    font-size:12px;
+}
+
+.btn-success{
+    background:#16a34a;
+    color:white;
+}
+
+.btn-success:hover{
+    background:#15803d;
+}
+
+@media(max-width:900px){
+
+    .workflow-canvas{
+        flex-direction:column;
+    }
+
+    .workflow-arrow{
+        transform:rotate(90deg);
+    }
+
+}
+
+</style>
+
+<script>
+
+const step1 = document.getElementById("step1_agent");
+const step2 = document.getElementById("step2_agent");
+const step3 = document.getElementById("step3_agent");
+
+function updateWorkflow() {
+
+    document.getElementById("node1").innerText =
+        step1.options[step1.selectedIndex].text || "Select Agent";
+
+    document.getElementById("node2").innerText =
+        step2.options[step2.selectedIndex].text || "Select Agent";
+
+    document.getElementById("node3").innerText =
+        step3.options[step3.selectedIndex].text || "Select Agent";
+
+}
+
+step1.addEventListener("change", updateWorkflow);
+step2.addEventListener("change", updateWorkflow);
+step3.addEventListener("change", updateWorkflow);
+
+updateWorkflow();
+
+</script>
+
+{% endblock %}

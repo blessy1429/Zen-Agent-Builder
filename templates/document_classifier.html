@@ -1,0 +1,124 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="container-fluid">
+
+    <div class="card shadow-sm">
+
+        <div class="card-header">
+            <h3 class="mb-0">
+                Document Classification Agent
+            </h3>
+        </div>
+
+        <div class="card-body">
+
+            <form
+                action="/run-document-classifier"
+                method="post"
+                enctype="multipart/form-data"
+            >
+
+                <div class="mb-3">
+
+                    <label class="form-label">
+                        Upload Document
+                    </label>
+
+                    <input
+                        type="file"
+                        name="file"
+                        class="form-control"
+                        accept=".pdf,.docx,.txt"
+                        required
+                    >
+
+                </div>
+
+                <button
+                    type="submit"
+                    class="btn btn-primary"
+                >
+                    Classify Document
+                </button>
+
+            </form>
+
+        </div>
+
+    </div>
+
+    {% if document_type %}
+
+    <div class="card shadow-sm mt-4">
+
+        <div class="card-header bg-success text-white">
+
+            Classification Result
+
+        </div>
+
+        <div class="card-body">
+
+            <div class="row">
+
+                <div class="col-md-4">
+
+                    <div class="border rounded p-3 text-center">
+
+                        <h6>
+                            Document Name
+                        </h6>
+
+                        <h5 class="text-primary">
+                            {{ document_name }}
+                        </h5>
+
+                    </div>
+
+                </div>
+
+                <div class="col-md-4">
+
+                    <div class="border rounded p-3 text-center">
+
+                        <h6>
+                            Document Type
+                        </h6>
+
+                        <h4 class="text-success">
+                            {{ document_type }}
+                        </h4>
+
+                    </div>
+
+                </div>
+
+                <div class="col-md-4">
+
+                    <div class="border rounded p-3 text-center">
+
+                        <h6>
+                            Confidence
+                        </h6>
+
+                        <h4 class="text-info">
+                            {{ confidence or "100%" }}
+                        </h4>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    {% endif %}
+
+</div>
+
+{% endblock %}

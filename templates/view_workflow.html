@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="card">
+    <h2>Workflow Details</h2>
+
+    <table class="table">
+        <tr>
+            <th>ID</th>
+            <td>{{ workflow.id }}</td>
+        </tr>
+
+        <tr>
+            <th>Workflow Name</th>
+            <td>{{ workflow.workflow_name }}</td>
+        </tr>
+    </table>
+
+    <a href="/workflow-builder" class="btn">
+        Back
+    </a>
+</div>
+
+{% endblock %}

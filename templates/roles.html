@@ -1,0 +1,129 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="page-container">
+
+    <div class="page-header">
+
+        <div>
+            <h2>Roles</h2>
+            <p>Manage system roles and permissions</p>
+        </div>
+
+        <a href="/add-role" class="btn-add">
+            Add Role
+        </a>
+
+    </div>
+
+    <div class="content-card">
+
+        <div class="card-toolbar">
+
+            <input
+                type="text"
+                id="roleSearch"
+                class="search-input"
+                placeholder="Search roles..."
+            >
+
+        </div>
+
+        <table id="rolesTable">
+
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Role Name</th>
+                    <th>Status</th>
+                    <th class="text-right">Actions</th>
+                </tr>
+            </thead>
+
+            <tbody>
+
+                {% for role in roles %}
+
+                <tr>
+
+                    <td>{{ role.id }}</td>
+
+                    <td>{{ role.name }}</td>
+
+                    <td>
+                        {% if role.status == "Active" %}
+                        <span class="status active">
+                            Active
+                        </span>
+                        {% else %}
+                        <span class="status inactive">
+                            Inactive
+                        </span>
+                        {% endif %}
+                    </td>
+
+                    <td class="text-right">
+
+                        <a href="/edit-role/{{ role.id }}"
+                           class="action-link">
+                            Edit
+                        </a>
+
+                        <a href="/toggle-role/{{ role.id }}"
+                           class="action-link">
+
+                            {% if role.status == "Active" %}
+                                Disable
+                            {% else %}
+                                Enable
+                            {% endif %}
+
+                        </a>
+
+                    </td>
+
+                </tr>
+
+                {% endfor %}
+
+            </tbody>
+
+        </table>
+
+        <div class="card-footer">
+            Total Roles: {{ roles|length }}
+        </div>
+
+    </div>
+
+</div>
+
+<script>
+
+document.getElementById("roleSearch")
+.addEventListener("keyup", function () {
+
+    let value = this.value.toLowerCase();
+
+    let rows =
+        document.querySelectorAll(
+            "#rolesTable tbody tr"
+        );
+
+    rows.forEach(row => {
+
+        row.style.display =
+            row.innerText
+            .toLowerCase()
+            .includes(value)
+            ? ""
+            : "none";
+
+    });
+
+});
+
+</script>
+
+{% endblock %}

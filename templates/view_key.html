@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="page-card">
+
+    <h2>API Key</h2>
+
+    {% if token %}
+        <p>{{ token.token }}</p>
+    {% else %}
+        <p>No API Key Generated</p>
+    {% endif %}
+
+</div>
+
+{% endblock %}
